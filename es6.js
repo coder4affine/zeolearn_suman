@@ -409,3 +409,38 @@ for (const iterator of gen) {
 // console.log(gen.next());
 // console.log(gen.next());
 // console.log(gen.next());
+
+let map = new Map();
+
+map.set("1", "str1"); // a string key
+map.set(1, "num1"); // a numeric key
+map.set(true, "bool1"); // a boolean key
+
+console.log(map.get(true));
+
+console.log(map.delete(true));
+
+for (const [key, value] of map) {
+  console.log(key);
+  console.log(value);
+}
+
+let set = new Set();
+
+let john = { name: "John" };
+let pete = { name: "Pete" };
+let mary = { name: "Mary" };
+
+// visits, some users come multiple times
+set.add(john);
+set.add(pete);
+set.add(mary);
+set.add(john);
+set.add(mary);
+
+// set keeps only unique values
+console.log(set.size); // 3
+
+for (let user of set) {
+  console.log(user.name); // John (then Pete and Mary)
+}
