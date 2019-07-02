@@ -1,0 +1,15 @@
+{
+  "name": "zeolearn_suman",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/coder4affine/zeolearn_suman.git",
+  "author": "Yagnesh Modh <yagnesh.ash.modh@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --mode development"
+  },
+  "devDependencies": {
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.5"
+  }
+}
