@@ -1,11 +1,14 @@
-const data = "hello from app";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-export const data1 = "hello data1";
+export default class app extends Component {
+  static propTypes = {};
 
-export const data2 = "hello data2";
-
-export const data3 = "hello data3";
-
-export const data4 = "hello data4";
-
-export default data;
+  render() {
+    return (
+      <div>
+        <h1>App Component</h1>
+      </div>
+    );
+  }
+}

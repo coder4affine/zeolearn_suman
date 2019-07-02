@@ -1,7 +1,5 @@
-import { data3 as data } from "./app";
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./app";
 
-const greet = "hello";
-
-console.log(greet);
-
-console.log(data);
+ReactDOM.render(<App />, document.getElementById("root"));
