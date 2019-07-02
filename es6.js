@@ -144,7 +144,7 @@ console.log(obj.d);
 class Animal {
   constructor(type = "animal") {
     this.type = type;
-    this.name = "yagnesh modh";
+    const name = "yagnesh modh";
   }
 
   get type() {
@@ -157,7 +157,7 @@ class Animal {
 
   makeSound() {
     console.log(this.type);
-    console.log(this.name);
+    console.log(name);
   }
 }
 
@@ -277,3 +277,135 @@ const sim1 = a.reduce((p, c) => {
 }, 0);
 
 console.log(sim1);
+
+const user = [
+  {
+    name: "Yagnesh Modh",
+    gender: "Male"
+  },
+  {
+    name: "Virat Kohli",
+    gender: "Male"
+  },
+  {
+    name: "Dipila Padukone",
+    gender: "female"
+  },
+  {
+    name: "Priyanka Chopra",
+    gender: "female"
+  }
+];
+
+// const a = null;
+// const b = 2;
+
+// const c = a || b;
+// const d = a && b;
+
+// console.log(c);
+// console.log(d);
+
+// const newUsers = user.map((item) => {
+//     if(item.name !== 'Yagnesh Modh') {
+//         return {...item, type: 'celebrity' }
+//     }
+//     return item;
+// });
+
+// {
+//     male: [],
+//     female: []
+// }
+
+const groupByUser = user.reduce((previous, current) => {
+  previous[current["gender"]] = previous[current["gender"]] || [];
+  previous[current["gender"]].push(current);
+  return previous;
+}, {});
+
+console.log(groupByUser);
+
+const user = {
+  name: "yagnesh modh",
+  gender: "female",
+  dob: "4/8/1987"
+};
+
+for (const item in user) {
+  console.log(item);
+  console.log(user[item]);
+}
+
+for (const [key, value] of Object.entries(user)) {
+  console.log(key);
+  console.log(value);
+}
+
+const users = [
+  {
+    name: "Yagnesh Modh",
+    gender: "Male"
+  },
+  {
+    name: "Virat Kohli",
+    gender: "Male"
+  },
+  {
+    name: "Dipila Padukone",
+    gender: "female"
+  },
+  {
+    name: "Priyanka Chopra",
+    gender: "female"
+  }
+];
+
+//   for (const iterator of users) {
+//      console.log(iterator);
+//   }
+
+const prom1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("resolve Promise1");
+  }, 3000);
+});
+
+const prom2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("resolve Promise2");
+  }, 2000);
+});
+
+// prom1.then((val) => console.log(val)).catch((err) => console.log(err));
+
+const api = async () => {
+  try {
+    const data = await Promise.all([prom1, prom2]);
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+api();
+
+console.log("yagnesh");
+
+function* add() {
+  yield 1;
+  yield 2;
+  yield 3;
+  return 4;
+}
+
+const gen = add();
+
+for (const iterator of gen) {
+  console.log(iterator);
+}
+
+// console.log(gen.next());
+// console.log(gen.next());
+// console.log(gen.next());
+// console.log(gen.next());
