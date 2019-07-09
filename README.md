@@ -21,3 +21,8 @@ Jest will look for test files with any of the following popular naming conventio
 Files with .js suffix in **tests** folders.
 Files with .test.js suffix.
 Files with .spec.js suffix.
+
+ref URL
+
+https://facebook.github.io/create-react-app/docs/running-tests
+https://jestjs.io/docs/en/tutorial-react
