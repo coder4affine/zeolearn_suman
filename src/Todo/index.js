@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import "./todo.css";
 import TodoForm from "./todoForm";
 import TodoList from "./todoList";
 import TodoStatus from "./todoStatus";
