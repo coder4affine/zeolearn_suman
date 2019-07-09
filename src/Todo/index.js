@@ -13,7 +13,8 @@ export default class index extends Component {
     todoText1: "",
     todoList: [],
     updatedTodo: null,
-    status: "all"
+    status: "all",
+    error: null
   };
 
   constructor(props) {
@@ -22,60 +23,97 @@ export default class index extends Component {
   }
 
   loadData = async () => {
-    const res = await fetch("http://localhost:3004/todoList");
-    const todoList = await res.json();
-    this.setState({ todoList: todoList });
+    try {
+      const res = await fetch("http://localhost:3004/todoList");
+      const todoList = await res.json();
+      this.setState({ todoList: todoList });
+      //   throw new Error("Load data fail");
+    } catch (error) {
+      this.setState({ error });
+    }
   };
 
   changeText = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  addTodo = event => {
-    event.preventDefault();
+  addTodo = async event => {
+    try {
+      event.preventDefault();
 
-    // fetch("http://localhost:3004/todoList", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     id: state.todoList.length,
-    //     text: state.todoText,
-    //     isDone: false
-    //   }),
-    //   headers: {
-    //     accept: "application/json",
-    //     "Content-Type": "application/json"
-    //   }
-    // });
-    this.setState(state => {
-      return {
+      const { todoText } = this.state;
+
+      const res = await fetch("http://localhost:3004/todoList", {
+        method: "POST",
+        body: JSON.stringify({
+          text: todoText,
+          isDone: false
+        }),
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json"
+        }
+      });
+
+      const todo = await res.json();
+
+      this.setState(state => {
+        return {
+          todoList: [...state.todoList, todo],
+          todoText: "",
+          status: "all"
+        };
+      });
+    } catch (error) {
+      this.setState({ error });
+    }
+  };
+
+  deleteTodo = async todo => {
+    try {
+      await fetch(`http://localhost:3004/todoList/${todo.id}`, {
+        method: "DELETE"
+      });
+
+      this.setState(state => {
+        return {
+          todoList: state.todoList.filter(x => x.id !== todo.id)
+        };
+      });
+    } catch (error) {
+      this.setState({ error });
+    }
+  };
+
+  changeTodo = async updatedTodo => {
+    try {
+      const res = await fetch(
+        `http://localhost:3004/todoList/${updatedTodo.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(updatedTodo),
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json"
+          }
+        }
+      );
+
+      const todo = await res.json();
+
+      const { todoList } = this.state;
+
+      const index = todoList.findIndex(x => x.id === updatedTodo.id);
+      this.setState({
         todoList: [
-          ...state.todoList,
-          { id: state.todoList.length, text: state.todoText, isDone: false }
-        ],
-        todoText: "",
-        status: "all"
-      };
-    });
-  };
-
-  deleteTodo = todo => {
-    this.setState(state => {
-      return {
-        todoList: state.todoList.filter(x => x.id !== todo.id)
-      };
-    });
-  };
-
-  changeTodo = updatedTodo => {
-    const { todoList } = this.state;
-    const index = todoList.findIndex(x => x.id === updatedTodo.id);
-    this.setState({
-      todoList: [
-        ...todoList.slice(0, index),
-        updatedTodo,
-        ...todoList.slice(index + 1)
-      ]
-    });
+          ...todoList.slice(0, index),
+          todo,
+          ...todoList.slice(index + 1)
+        ]
+      });
+    } catch (error) {
+      this.setState({ error });
+    }
   };
 
   changeStatus = status => {
@@ -83,8 +121,12 @@ export default class index extends Component {
   };
 
   render() {
-    const { todoText, todoList, updatedTodo, status } = this.state;
+    const { todoText, todoList, updatedTodo, status, error } = this.state;
     console.log(status);
+
+    if (error) {
+      return <h1>{error.message}</h1>;
+    }
 
     const filteredTodos = todoList.filter(x => {
       if (status === "pending") {
