@@ -1,13 +1,26 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import Todo from "./Todo";
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
 
-export default class app extends Component {
-  static propTypes = {
-    prop: PropTypes
-  };
-
-  render() {
-    return <Todo />;
-  }
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
 }
+
+export default App;
