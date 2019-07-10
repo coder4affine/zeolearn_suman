@@ -1,29 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import Child from './child';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <button type="button">Hello</button>
-        <p>
-          Edit <code>src/App.js</code> and save to reload. alksdjflkadsjflkajf ljasdlkfjads
-          lkjasdlkjadslkjf kajsflkjaslkfjaslkfjaslkjfdsdafjas lkajsdlkfjasdlkfjadslkfj
-          lajsdflkajsflkjlkasjdflakjdsfjs
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+class App extends Component {
+  state = {
+    message: '',
+    user: {
+      name: 'yagnesh',
+    },
+  };
+
+  render() {
+    const { message, user } = this.state;
+    console.log(user);
+    console.log('parent component');
+    return (
+      <div>
+        <h1>Hello from parent</h1>
+        <span>{message}</span>
+        <button
+          type="button"
+          onClick={() => {
+            user.name = 'yagnesh modh';
+            this.setState({ user });
+          }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+          Click Me
+        </button>
+
+        <Child user={user} />
+      </div>
+    );
+  }
 }
+
+App.propTypes = {};
 
 export default App;
