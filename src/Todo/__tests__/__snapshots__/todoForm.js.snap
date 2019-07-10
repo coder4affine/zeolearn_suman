@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`take snap shot snapshot 1`] = `
+<div
+  className="container"
+>
+  <h1>
+    Todo App
+  </h1>
+  <form
+    onSubmit={[MockFunction]}
+  >
+    <input
+      name="todoText"
+      onChange={[MockFunction]}
+      required={true}
+      type="text"
+      value=""
+    />
+    <button
+      type="submit"
+    >
+      Add Todo
+    </button>
+  </form>
+</div>
+`;

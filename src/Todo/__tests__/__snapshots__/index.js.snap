@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`take screenshot of component screenshot 1`] = `
+<div>
+  <todoForm
+    addTodo={[Function]}
+    changeText={[Function]}
+    todoText=""
+  />
+  <todoList
+    changeTodo={[Function]}
+    deleteTodo={[Function]}
+    todos={Array []}
+  />
+  <todoStatus
+    changeStatus={[Function]}
+  />
+</div>
+`;

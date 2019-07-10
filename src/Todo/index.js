@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import TodoForm from "./todoForm";
 import TodoList from "./todoList";
 import TodoStatus from "./todoStatus";
+import { API } from "../utils";
 
 export default class index extends Component {
   static propTypes = {};
@@ -23,8 +24,7 @@ export default class index extends Component {
 
   loadData = async () => {
     try {
-      const res = await fetch("http://localhost:3004/todoList");
-      const todoList = await res.json();
+      const todoList = await API({ uri: "http://localhost:3004/todoList" });
       this.setState({ todoList: todoList });
       //   throw new Error("Load data fail");
     } catch (error) {
@@ -41,20 +41,14 @@ export default class index extends Component {
       event.preventDefault();
 
       const { todoText } = this.state;
-
-      const res = await fetch("http://localhost:3004/todoList", {
+      const todo = await API({
+        uri: "http://localhost:3004/todoList",
         method: "POST",
-        body: JSON.stringify({
+        body: {
           text: todoText,
           isDone: false
-        }),
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/json"
         }
       });
-
-      const todo = await res.json();
 
       this.setState(state => {
         return {
@@ -70,7 +64,8 @@ export default class index extends Component {
 
   deleteTodo = async todo => {
     try {
-      await fetch(`http://localhost:3004/todoList/${todo.id}`, {
+      await API({
+        uri: `http://localhost:3004/todoList/${todo.id}`,
         method: "DELETE"
       });
 
@@ -86,19 +81,11 @@ export default class index extends Component {
 
   changeTodo = async updatedTodo => {
     try {
-      const res = await fetch(
-        `http://localhost:3004/todoList/${updatedTodo.id}`,
-        {
-          method: "PUT",
-          body: JSON.stringify(updatedTodo),
-          headers: {
-            accept: "application/json",
-            "Content-Type": "application/json"
-          }
-        }
-      );
-
-      const todo = await res.json();
+      const todo = await API({
+        uri: `http://localhost:3004/todoList/${updatedTodo.id}`,
+        method: "PUT",
+        body: updatedTodo
+      });
 
       const { todoList } = this.state;
 
