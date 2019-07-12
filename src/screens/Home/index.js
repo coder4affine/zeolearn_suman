@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+const initialForm = {
+  title: '',
+  watchHref: '',
+  length: '',
+  category: '',
+  authorId: '',
+};
+
 class index extends Component {
   state = {
     courses: [],
     authors: [],
+    course: initialForm,
   };
 
-  constructor(props) {
-    super(props);
+  componentDidMount() {
     this.loadData();
   }
 
@@ -37,12 +45,18 @@ class index extends Component {
 
   addCourse = () => {
     const { history } = this.props;
-    history.push('/about');
+    const { authors, course } = this.state;
+    history.push({
+      pathname: '/about',
+      state: {
+        authors,
+        course,
+      },
+    });
   };
 
   render() {
     const { courses } = this.state;
-    console.log(this.props);
     return (
       <div>
         <button type="button" onClick={this.addCourse}>
