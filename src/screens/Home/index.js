@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Form from './form';
+import CourseList from './coursesList';
+import ErrorBoundary from '../../components/errorBoundary';
 
 const initialForm = {
   title: '',
@@ -13,7 +16,9 @@ class index extends Component {
   state = {
     courses: [],
     authors: [],
-    course: initialForm,
+    course: null,
+    open: false,
+    error: false,
   };
 
   componentDidMount() {
@@ -34,59 +39,93 @@ class index extends Component {
     });
   };
 
-  getAuthor = id => {
-    const { authors } = this.state;
-    const author = authors.find(x => x.id === id);
-    if (author) {
-      return `${author.firstName} ${author.lastName}`;
-    }
-    return '';
+  addCourse = () => {
+    this.setState({ course: initialForm });
+    this.toggleDialog();
   };
 
-  addCourse = () => {
-    const { history } = this.props;
-    const { authors, course } = this.state;
-    history.push({
-      pathname: '/about',
-      state: {
-        authors,
-        course,
-      },
+  editCourse = course => {
+    this.setState({ course });
+    this.toggleDialog();
+  };
+
+  deleteCourse = async course => {
+    await fetch(`http://localhost:3004/courses/${course.id}`, {
+      method: 'delete',
+    });
+    // this.loadData();
+
+    this.setState(state => {
+      return {
+        courses: state.courses.filter(x => x.id !== course.id),
+      };
     });
   };
 
-  render() {
+  // redirect = course => {
+  //   const { history } = this.props;
+  //   const { authors } = this.state;
+  //   history.push({
+  //     pathname: '/about',
+  //     state: {
+  //       authors,
+  //       course,
+  //     },
+  //   });
+  // };
+
+  toggleDialog = () => {
+    this.setState(state => {
+      return { open: !state.open };
+    });
+  };
+
+  onAddCourse = course => {
+    this.setState(state => {
+      return { courses: [...state.courses, course] };
+    });
+    this.toggleDialog();
+  };
+
+  onUpdateCourses = course => {
     const { courses } = this.state;
+    const i = courses.findIndex(x => x.id === course.id);
+    this.setState({
+      courses: [...courses.slice(0, i), course, ...courses.slice(i + 1)],
+    });
+    this.toggleDialog();
+  };
+
+  render() {
+    const { courses, authors, course: initialData, open, error } = this.state;
+    console.log(error);
     return (
-      <div>
-        <button type="button" onClick={this.addCourse}>
-          Add Course
-        </button>
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Link</th>
-              <th>Author</th>
-              <th>Length</th>
-              <th>Category</th>
-            </tr>
-          </thead>
-          <tbody>
-            {courses.map(course => (
-              <tr key={course.id}>
-                <td>{course.title}</td>
-                <td>
-                  <a href={course.watchHref}>Link</a>
-                </td>
-                <td>{this.getAuthor(course.authorId)}</td>
-                <td>{course.length}</td>
-                <td>{course.category}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <ErrorBoundary>
+        <div>
+          <button type="button" onClick={this.addCourse}>
+            Add Course
+          </button>
+          <CourseList
+            courses={courses}
+            authors={authors}
+            editCourse={this.editCourse}
+            deleteCourse={this.deleteCourse}
+          />
+          {authors && initialData && (
+            <dialog open={open}>
+              <button type="button" onClick={this.toggleDialog}>
+                Close
+              </button>
+              <Form
+                authors={authors}
+                course={initialData}
+                onAddCourse={this.onAddCourse}
+                onUpdateCourse={this.onUpdateCourses}
+              />
+            </dialog>
+          )}
+        </div>
+      </ErrorBoundary>
     );
   }
 }
