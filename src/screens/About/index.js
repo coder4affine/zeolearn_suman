@@ -1,11 +1,17 @@
-import React from 'react';
+import { connect } from 'react-redux';
+import about from './about';
 
-const index = () => {
-  return (
-    <div>
-      <h1>About Page</h1>
-    </div>
-  );
-};
+function mapStateToProps(state) {
+  return {
+    locale: state.locale.locale,
+  };
+}
 
-export default index;
+function mapDispatchToProps() {
+  return {};
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(about);

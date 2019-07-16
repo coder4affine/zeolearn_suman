@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 
 const CoursesList = ({ courses, authors, editCourse, deleteCourse }) => {
   const getAuthor = id => {
-    console.log(id, authors);
-    throw new Error('Error From getAuthor');
-    // const author = authors.find(x => x.id === id);
+    // console.log(id, authors);
+    // throw new Error('Error From getAuthor');
+    const author = authors.find(x => x.id === id);
 
-    // if (author) {
-    //   return `${author.firstName} ${author.lastName}`;
-    // }
-    // return '';
+    if (author) {
+      return `${author.firstName} ${author.lastName}`;
+    }
+    return '';
   };
 
   return (

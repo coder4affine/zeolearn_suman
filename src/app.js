@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import loadable from '@loadable/component';
 import route from './route';
 import PrivateRoute from './components/privateRoute';
+import ThemeContext from './context/themeContext';
 
 const AsyncHeader = loadable(() => import('./components/header'), {
   fallback: <div>Loading...</div>,
@@ -15,11 +16,13 @@ class App extends PureComponent {
     return (
       <Router>
         <AsyncHeader />
-        <Switch>
-          {route.map(props => (
-            <PrivateRoute key={props.path || 0} {...props} />
-          ))}
-        </Switch>
+        <ThemeContext>
+          <Switch>
+            {route.map(props => (
+              <PrivateRoute key={props.path || 0} {...props} />
+            ))}
+          </Switch>
+        </ThemeContext>
       </Router>
     );
   }

@@ -1,11 +1,19 @@
-import React from 'react';
+import { connect } from 'react-redux';
+import details from './details';
 
-const index = () => {
-  return (
-    <div>
-      <h1>Details Page</h1>
-    </div>
-  );
-};
+function mapStateToProps(state) {
+  return {
+    theme: state.theme1,
+  };
+}
 
-export default index;
+function mapDispatchToProps(dispatch) {
+  return {
+    changeTheme: payload => dispatch({ type: 'CHANGE_THEME', payload }),
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(details);
