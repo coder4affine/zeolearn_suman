@@ -7,41 +7,7 @@ import { Formik, Field } from 'formik';
 import TextField from '../../components/textField';
 import SelectField from '../../components/selectField';
 
-const index = ({ authors, course, onAddCourse, onUpdateCourse }) => {
-  const submit = async (values, actions) => {
-    try {
-      let url = 'http://localhost:3004/courses';
-      if (values.id) {
-        url = `http://localhost:3004/courses/${values.id}`;
-      }
-      const res = await fetch(url, {
-        method: values.id ? 'PUT' : 'POST',
-        body: JSON.stringify(values),
-        headers: {
-          accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      });
-      const newCourse = await res.json();
-      if (values.id) {
-        onUpdateCourse(newCourse);
-      } else {
-        onAddCourse(newCourse);
-      }
-      actions.resetForm();
-    } catch (error) {
-      actions.setErrors({ general: error.message });
-    } finally {
-      actions.setSubmitting(false);
-    }
-    // console.log(values);
-    // console.log(actions);
-    // setTimeout(() => {
-    //   actions.setErrors({ general: 'Oops! something went wrong' });
-    //   actions.setSubmitting(false);
-    // }, 2000);
-  };
-
+const index = ({ authors, course, submitCourseForm }) => {
   const validateCourse = values => {
     const error = {};
     if (!values.title) {
@@ -105,7 +71,12 @@ const index = ({ authors, course, onAddCourse, onUpdateCourse }) => {
   ];
 
   return (
-    <Formik initialValues={course} validate={validateCourse} onSubmit={submit} enableReinitialize>
+    <Formik
+      initialValues={course}
+      validate={validateCourse}
+      onSubmit={submitCourseForm}
+      enableReinitialize
+    >
       {({ handleSubmit, isSubmitting, errors }) => (
         <form onSubmit={handleSubmit}>
           {errors.general && <div style={{ fontSize: 10, color: 'red' }}>{errors.general}</div>}
@@ -137,8 +108,7 @@ index.propTypes = {
     category: PropTypes.string.isRequired,
     id: PropTypes.string,
   }).isRequired,
-  onAddCourse: PropTypes.func.isRequired,
-  onUpdateCourse: PropTypes.func.isRequired,
+  submitCourseForm: PropTypes.func.isRequired,
 };
 
 export default index;

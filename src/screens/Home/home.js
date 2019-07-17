@@ -1,3 +1,5 @@
+/* eslint-disable react/no-did-update-set-state */
+/* eslint-disable react/forbid-prop-types */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Form from './form';
@@ -18,14 +20,17 @@ class index extends PureComponent {
     changeLocale: PropTypes.func.isRequired,
     loadAuthors: PropTypes.func.isRequired,
     loadCourses: PropTypes.func.isRequired,
+    submitCourseForm: PropTypes.func.isRequired,
+    deleteCourse: PropTypes.func.isRequired,
+    courses: PropTypes.array.isRequired,
+    authors: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.bool.isRequired,
   };
 
   state = {
-    courses: [],
-    authors: [],
     course: null,
     open: false,
-    error: false,
   };
 
   constructor(props) {
@@ -37,58 +42,17 @@ class index extends PureComponent {
     props.loadCourses();
   }
 
-  componentDidMount() {
-    this.loadData();
-  }
-
-  loadData = async () => {
-    const res = await Promise.all([
-      fetch('http://localhost:3004/courses'), // 3 sec
-      fetch('http://localhost:3004/authors'), // 2 sec
-    ]); // 2 sec
-
-    const data = await Promise.all([res[0].json(), res[1].json()]); // 1sec
-
-    this.setState({
-      courses: data[0],
-      authors: data[1],
-    });
-  };
-
   addCourse = () => {
-    this.setState({ course: initialForm });
-    this.toggleDialog();
+    this.setState({ course: initialForm }, () => {
+      this.toggleDialog();
+    });
   };
 
   editCourse = course => {
-    this.setState({ course });
-    this.toggleDialog();
-  };
-
-  deleteCourse = async course => {
-    await fetch(`http://localhost:3004/courses/${course.id}`, {
-      method: 'delete',
-    });
-    // this.loadData();
-
-    this.setState(state => {
-      return {
-        courses: state.courses.filter(x => x.id !== course.id),
-      };
+    this.setState({ course }, () => {
+      this.toggleDialog();
     });
   };
-
-  // redirect = course => {
-  //   const { history } = this.props;
-  //   const { authors } = this.state;
-  //   history.push({
-  //     pathname: '/about',
-  //     state: {
-  //       authors,
-  //       course,
-  //     },
-  //   });
-  // };
 
   toggleDialog = () => {
     this.setState(state => {
@@ -96,27 +60,18 @@ class index extends PureComponent {
     });
   };
 
-  onAddCourse = course => {
-    this.setState(state => {
-      return { courses: [...state.courses, course] };
-    });
-    this.toggleDialog();
-  };
-
-  onUpdateCourses = course => {
-    const { courses } = this.state;
-    const i = courses.findIndex(x => x.id === course.id);
-    this.setState({
-      courses: [...courses.slice(0, i), course, ...courses.slice(i + 1)],
-    });
-    this.toggleDialog();
-  };
-
   render() {
-    const { courses, authors, course: initialData, open, error } = this.state;
-    console.log(error);
-    console.log(this.props);
-    console.log('render');
+    const { course: initialData, open } = this.state;
+    const { courses, authors, submitCourseForm, deleteCourse, loading, error } = this.props;
+
+    if (loading) {
+      return <h1>Loading....</h1>;
+    }
+
+    if (error) {
+      return <h1>Oops! something went wrong!!</h1>;
+    }
+
     return (
       <ErrorBoundary>
         <div>
@@ -140,19 +95,14 @@ class index extends PureComponent {
             courses={courses}
             authors={authors}
             editCourse={this.editCourse}
-            deleteCourse={this.deleteCourse}
+            deleteCourse={deleteCourse}
           />
           {authors && initialData && (
             <dialog open={open}>
               <button type="button" onClick={this.toggleDialog}>
                 Close
               </button>
-              <Form
-                authors={authors}
-                course={initialData}
-                onAddCourse={this.onAddCourse}
-                onUpdateCourse={this.onUpdateCourses}
-              />
+              <Form authors={authors} course={initialData} submitCourseForm={submitCourseForm} />
             </dialog>
           )}
         </div>

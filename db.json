@@ -1,12 +1,12 @@
 {
   "courses": [
     {
-      "title": "redux course",
+      "title": "title",
       "watchHref": "http://www.pluralsight.com/courses/react-flux-building-applications",
       "length": "5:08",
       "category": "react",
-      "authorId": "scott-allen",
-      "id": "VzwRv11"
+      "authorId": "dan-wahlin",
+      "id": "c1zdDin"
     }
   ],
   "authors": [
