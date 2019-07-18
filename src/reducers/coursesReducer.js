@@ -14,7 +14,7 @@ export default (state = initialState, { type, payload }) => {
       return state.filter(x => x.id !== payload.id);
 
     case `${types.EDIT_COURSE}_${types.SUCCESS}`: {
-      const index = state.data.findIndex(x => x.id === payload.id);
+      const index = state.findIndex(x => x.id === payload.id);
       return [...state.slice(0, index), payload, ...state.slice(index + 1)];
     }
 

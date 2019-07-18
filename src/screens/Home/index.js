@@ -7,8 +7,17 @@ function mapStateToProps(state) {
     locale: state.locale.locale,
     courses: state.courses,
     authors: state.authors,
-    loading: false,
-    error: false,
+    loading:
+      !!state.loading[types.LOAD_AUTHORS] ||
+      !!state.loading[types.LOAD_COURSES] ||
+      !!state.loading[types.DELETE_COURSE],
+    error:
+      state.error[types.LOAD_AUTHORS] ||
+      state.error[types.LOAD_COURSES] ||
+      state.error[types.EDIT_COURSE] ||
+      state.error[types.ADD_COURSE] ||
+      state.error[types.DELETE_COURSE],
+    modalLoading: !!state.loading[types.ADD_COURSE] || !!state.loading[types.EDIT_COURSE],
   };
 }
 

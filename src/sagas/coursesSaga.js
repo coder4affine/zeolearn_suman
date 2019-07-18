@@ -23,6 +23,7 @@ export function* addCourse({ payload, actions }) {
       },
     });
     const course = yield res.json();
+    console.log(course);
     yield put({ type: `${types.ADD_COURSE}_${types.SUCCESS}`, payload: course });
     yield call(resetForm);
   } catch (error) {
@@ -44,6 +45,7 @@ export function* editCourse({ payload, actions }) {
         'Content-Type': 'application/json',
       },
     });
+
     const course = yield res.json();
     yield put({ type: `${types.EDIT_COURSE}_${types.SUCCESS}`, payload: course });
     yield call(resetForm);

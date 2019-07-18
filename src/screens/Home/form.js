@@ -106,7 +106,7 @@ index.propTypes = {
     authorId: PropTypes.string.isRequired,
     length: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
-    id: PropTypes.string,
+    id: PropTypes.number,
   }).isRequired,
   submitCourseForm: PropTypes.func.isRequired,
 };

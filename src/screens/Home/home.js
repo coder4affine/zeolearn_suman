@@ -26,6 +26,7 @@ class index extends PureComponent {
     authors: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
     error: PropTypes.bool.isRequired,
+    modalLoading: PropTypes.bool.isRequired,
   };
 
   state = {
@@ -40,6 +41,16 @@ class index extends PureComponent {
     });
     props.loadAuthors();
     props.loadCourses();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { open } = this.state;
+    const { modalLoading } = this.props;
+    if (open) {
+      if (prevProps.modalLoading !== modalLoading && !modalLoading) {
+        this.toggleDialog();
+      }
+    }
   }
 
   addCourse = () => {
