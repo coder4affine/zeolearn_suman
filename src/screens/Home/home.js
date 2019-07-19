@@ -80,7 +80,7 @@ class index extends PureComponent {
     }
 
     if (error) {
-      return <h1>Oops! something went wrong!!</h1>;
+      return <h1>{error.message}</h1>;
     }
 
     return (

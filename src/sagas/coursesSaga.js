@@ -23,9 +23,13 @@ export function* addCourse({ payload, actions }) {
       },
     });
     const course = yield res.json();
-    console.log(course);
-    yield put({ type: `${types.ADD_COURSE}_${types.SUCCESS}`, payload: course });
-    yield call(resetForm);
+    if (course.error) {
+      yield put({ type: `${types.ADD_COURSE}_${types.FAILURE}`, payload: new Error(course.error) });
+      yield call(setErrors, { general: course.error });
+    } else {
+      yield put({ type: `${types.ADD_COURSE}_${types.SUCCESS}`, payload: course });
+      yield call(resetForm);
+    }
   } catch (error) {
     yield put({ type: `${types.ADD_COURSE}_${types.FAILURE}`, payload: error });
     yield call(setErrors, { general: error.message });

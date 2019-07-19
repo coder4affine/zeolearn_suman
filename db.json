@@ -7,6 +7,14 @@
       "category": "react",
       "authorId": "scott-allen",
       "id": 1
+    },
+    {
+      "title": "title",
+      "watchHref": "http://www.pluralsight.com/courses/react-flux-building-applications",
+      "length": "5:08",
+      "category": "Career option",
+      "authorId": "cory-house",
+      "id": 2
     }
   ],
   "authors": [
