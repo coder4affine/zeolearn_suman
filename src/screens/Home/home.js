@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Form from './form';
 import CourseList from './coursesList';
 import ErrorBoundary from '../../components/errorBoundary';
-import { ThemeConsumer } from '../../context/themeContext';
+import { ThemeContext } from '../../context/themeContext';
 
 const initialForm = {
   title: '',
@@ -86,7 +86,7 @@ class index extends PureComponent {
     return (
       <ErrorBoundary>
         <div>
-          <ThemeConsumer>
+          <ThemeContext.Consumer>
             {value => {
               return (
                 <div>
@@ -97,7 +97,7 @@ class index extends PureComponent {
                 </div>
               );
             }}
-          </ThemeConsumer>
+          </ThemeContext.Consumer>
 
           <button type="button" onClick={this.addCourse}>
             Add Course

@@ -1,7 +1,11 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component, createContext } from 'react';
 
-export const { Provider: ThemeProvider, Consumer: ThemeConsumer } = createContext();
+export const ThemeContext = createContext();
+
+// export const myContext = createContext({
+//   name: 'yagnesh',
+// });
 
 export default class themeContext extends Component {
   state = {
@@ -12,6 +16,6 @@ export default class themeContext extends Component {
   render() {
     // eslint-disable-next-line react/prop-types
     const { children } = this.props;
-    return <ThemeProvider value={this.state}>{children}</ThemeProvider>;
+    return <ThemeContext.Provider value={this.state}>{children}</ThemeContext.Provider>;
   }
 }

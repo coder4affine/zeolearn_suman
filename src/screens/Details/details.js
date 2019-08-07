@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { ThemeConsumer } from '../../context/themeContext';
+import { ThemeContext } from '../../context/themeContext';
 
 const index = ({ changeTheme, theme }) => {
   console.log(theme);
@@ -8,11 +8,11 @@ const index = ({ changeTheme, theme }) => {
   return (
     <div>
       <h1>Details Page</h1>
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {value => {
           return <h1>{value.theme}</h1>;
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     </div>
   );
 };

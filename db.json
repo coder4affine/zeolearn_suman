@@ -33,5 +33,17 @@
       "firstName": "Dan",
       "lastName": "Wahlin"
     }
+  ],
+  "Items": [
+    {
+      "id": 1,
+      "ItemName": "IPhone",
+      "itemPrice": 50000
+    },
+    {
+      "id": 2,
+      "ItemName": "IPad",
+      "itemPrice": 80000
+    }
   ]
 }
